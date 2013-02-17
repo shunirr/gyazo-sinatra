@@ -16,7 +16,7 @@ module Gyazo
     post '/' do
       id = request[:id]
       data = request[:imagedata][:tempfile].read
-      hash = Digest::MD5.hexdigest(data).to_s
+      hash = Digest::MD5.hexdigest(data).to_s.to_i(16).to_s(36)
       dbm = SDBM.open(options.dbm_path, 0644)
       dbm[hash] = id
       File.open("#{options.image_dir}/#{hash}.png", 'w'){|f| f.write(data)}
